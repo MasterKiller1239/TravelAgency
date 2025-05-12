@@ -1,0 +1,21 @@
+﻿@model IEnumerable<TravelAgency.Models.Trip>
+
+<h1>Available Trips</h1>
+
+<a class="btn btn-primary" href="@Url.Action("Create")">Add New Trip</a>
+
+<table class="table mt-3">
+    <tr>
+        <th>Name</th>
+        <th>Price (PLN)</th>
+        <th></th>
+    </tr>
+    @foreach (var trip in Model)
+    {
+        <tr>
+            <td>@trip.Name</td>
+            <td>@trip.Price</td>
+            <td><a href="@Url.Action("Details", new { id = trip.Id })">Details</a></td>
+        </tr>
+    }
+</table>
