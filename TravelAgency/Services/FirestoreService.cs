@@ -1,0 +1,60 @@
+﻿using Google.Cloud.Firestore;
+using TravelAgency.Models;
+
+namespace TravelAgency.Services
+{
+    public class FirestoreService
+    {
+        private readonly FirestoreDb _firestoreDb;
+        private const string CollectionName = "trips";
+
+        public FirestoreService(string projectId, string credentialsPath)
+        {
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", credentialsPath);
+            _firestoreDb = FirestoreDb.Create(projectId);
+        }
+
+        public async Task<List<Trip>> GetAllTripsAsync()
+        {
+            var trips = new List<Trip>();
+            QuerySnapshot snapshot = await _firestoreDb.Collection(CollectionName).GetSnapshotAsync();
+
+            foreach (DocumentSnapshot doc in snapshot.Documents)
+            {
+                if (doc.Exists)
+                {
+                    try
+                    {
+                        // Deserializacja dokumentu do obiektu Trip
+                        Trip trip = doc.ConvertTo<Trip>();
+                        trip.Id = int.Parse(doc.Id); // Ustawiamy Id z ID dokumentu
+                        trips.Add(trip);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Logowanie błędu dla debugowania
+                        Console.WriteLine($"Błąd podczas deserializacji dokumentu {doc.Id}: {ex.Message}");
+                    }
+                }
+            }
+            return trips;
+        }
+
+        public async Task AddTripAsync(Trip trip)
+        {
+            if (trip == null)
+                throw new ArgumentNullException(nameof(trip));
+
+            CollectionReference tripsRef = _firestoreDb.Collection(CollectionName);
+
+            // Znajdź największe ID
+            var trips = await GetAllTripsAsync();
+            int newId = trips.Count > 0 ? trips.Max(t => t.Id) + 1 : 1;
+            trip.Id = newId;
+
+            // Ustawiamy dokument z ID odpowiadającym trip.Id
+            DocumentReference docRef = tripsRef.Document(newId.ToString());
+            await docRef.SetAsync(trip, SetOptions.Overwrite);
+        }
+    }
+}

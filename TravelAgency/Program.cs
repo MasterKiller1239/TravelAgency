@@ -1,8 +1,15 @@
+using TravelAgency;
+using TravelAgency.Services;
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+var firestoreService = new FirestoreService(
+    projectId: "travelagency-6f8ba",
+    credentialsPath: Path.Combine(Directory.GetCurrentDirectory(), "Secrets", "serviceAccountKey.json")
+);
+builder.Services.AddSingleton(firestoreService);
 
+//await SeedData.InitializeAsync(firestoreService);
+builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

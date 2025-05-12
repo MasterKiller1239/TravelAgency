@@ -4,6 +4,15 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>2f1fa5f5-5401-4f11-9a47-1d3a08db9d7a</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Cloud.Firestore" Version="3.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Secrets\" />
+  </ItemGroup>
 
 </Project>

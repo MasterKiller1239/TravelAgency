@@ -1,20 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Google.Cloud.Firestore;
 
 namespace TravelAgency.Models
 {
+    [FirestoreData]
     public class Trip
     {
+        [FirestoreProperty("Id")]
         public int Id { get; set; }
-
-        [Required]
-        [Display(Name = "Trip name")]
-        public required string Name { get; set; }
-
-        [Display(Name = "Description")]
-        public required string Description { get; set; }
-
-        [Display(Name = "Price (PLN)")]
-        [Range(0, 100000)]
-        public decimal Price { get; set; }
+        [FirestoreProperty("Name")]
+        public string Name { get; set; } = "";
+        [FirestoreProperty("Description")]
+        public string Description { get; set; } = "";
+        [FirestoreProperty("Price")]
+        public int Price { get; set; }
     }
 }

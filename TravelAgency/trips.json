@@ -1,0 +1,20 @@
+﻿[
+    {
+        "Id": 4,
+        "Name": "Italy - Rome",
+        "Description": "5 days of sightseeing",
+        "Price": 2500
+    },
+    {
+        "Id": 2,
+        "Name": "Greece - Athens",
+        "Description": "A week of sunny vacation",
+        "Price": 3200
+    },
+    {
+        "Id": 3,
+        "Name": "Japan - Tokyo",
+        "Description": "7 days exploring the city",
+        "Price": 5200
+    }
+]

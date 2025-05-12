@@ -1,20 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TravelAgency.Models;
-using TravelAgency.Data;
+using TravelAgency.Services;
+using System.Threading.Tasks;
 
 namespace TravelAgency.Controllers
 {
     public class TripsController : Controller
     {
-        public IActionResult Index()
+        private readonly FirestoreService _firestoreService;
+
+        public TripsController(FirestoreService firestoreService)
         {
-            var trips = FakeContext.GetAll();
+            _firestoreService = firestoreService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var trips = await _firestoreService.GetAllTripsAsync();
             return View(trips);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var trip = FakeContext.GetById(id);
+            var trips = await _firestoreService.GetAllTripsAsync();
+            var trip = trips.FirstOrDefault(t => t.Id == id);
             if (trip == null)
                 return NotFound();
             return View(trip);
@@ -27,11 +36,11 @@ namespace TravelAgency.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Trip trip)
+        public async Task<IActionResult> Create(Trip trip)
         {
             if (ModelState.IsValid)
             {
-                FakeContext.Add(trip);
+                await _firestoreService.AddTripAsync(trip);
                 return RedirectToAction(nameof(Index));
             }
             return View(trip);
