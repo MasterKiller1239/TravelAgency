@@ -1,5 +1,5 @@
 ﻿using TravelAgency.Models;
-namespace TravelAgency.Services
+namespace TravelAgency.Services.Interfaces
 {
     public interface IDataSource
     {

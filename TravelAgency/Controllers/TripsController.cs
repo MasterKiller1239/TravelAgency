@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TravelAgency.Models;
-using TravelAgency.Services;
 using System.Threading.Tasks;
+using TravelAgency.Services.Interfaces;
 
 namespace TravelAgency.Controllers
 {

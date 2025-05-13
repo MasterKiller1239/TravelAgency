@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Google.Cloud.Firestore;
 using TravelAgency.Models;
+using TravelAgency.Services.Interfaces;
 
 namespace TravelAgency.Services
 {
