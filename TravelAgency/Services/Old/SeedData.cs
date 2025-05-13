@@ -1,9 +1,8 @@
 ﻿using System.Text.Json;
 using System.Threading.Tasks;
 using TravelAgency.Models;
-using TravelAgency.Services;
 
-namespace TravelAgency
+namespace TravelAgency.Services.Old
 {
     public class SeedData
     {

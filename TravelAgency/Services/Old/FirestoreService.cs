@@ -25,14 +25,12 @@ namespace TravelAgency.Services
                 {
                     try
                     {
-                        // Deserializacja dokumentu do obiektu Trip
                         Trip trip = doc.ConvertTo<Trip>();
-                        trip.Id = int.Parse(doc.Id); // Ustawiamy Id z ID dokumentu
+                        trip.Id = int.Parse(doc.Id);
                         trips.Add(trip);
                     }
                     catch (Exception ex)
                     {
-                        // Logowanie błędu dla debugowania
                         Console.WriteLine($"Błąd podczas deserializacji dokumentu {doc.Id}: {ex.Message}");
                     }
                 }
@@ -47,12 +45,10 @@ namespace TravelAgency.Services
 
             CollectionReference tripsRef = _firestoreDb.Collection(CollectionName);
 
-            // Znajdź największe ID
             var trips = await GetAllTripsAsync();
             int newId = trips.Count > 0 ? trips.Max(t => t.Id) + 1 : 1;
             trip.Id = newId;
 
-            // Ustawiamy dokument z ID odpowiadającym trip.Id
             DocumentReference docRef = tripsRef.Document(newId.ToString());
             await docRef.SetAsync(trip, SetOptions.Overwrite);
         }

@@ -7,43 +7,48 @@ namespace TravelAgency.Controllers
 {
     public class TripsController : Controller
     {
-        private readonly FirestoreService _firestoreService;
+        private readonly IDataSource _dataSource;
 
-        public TripsController(FirestoreService firestoreService)
+        public TripsController(IDataSource dataSource)
         {
-            _firestoreService = firestoreService;
+            _dataSource = dataSource;
         }
 
         public async Task<IActionResult> Index()
         {
-            var trips = await _firestoreService.GetAllTripsAsync();
-            return View(trips);
+            var trips = await _dataSource.GetTripsAsync();
+            return View(trips); 
         }
 
+        // GET: /Trips/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var trips = await _firestoreService.GetAllTripsAsync();
-            var trip = trips.FirstOrDefault(t => t.Id == id);
+            var trip = await _dataSource.GetTripByIdAsync(id);
             if (trip == null)
-                return NotFound();
-            return View(trip);
+            {
+                return NotFound(); 
+            }
+            return View(trip); 
         }
 
+        // GET: /Trips/Create
         public IActionResult Create()
         {
-            return View();
+            return View(); 
         }
 
+        // POST: /Trips/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Trip trip)
         {
             if (ModelState.IsValid)
             {
-                await _firestoreService.AddTripAsync(trip);
-                return RedirectToAction(nameof(Index));
+                trip.Id = 0;
+                await _dataSource.AddTripAsync(trip); 
+                return RedirectToAction(nameof(Index)); 
             }
-            return View(trip);
+            return View(trip); 
         }
     }
 }

@@ -2,7 +2,9 @@
 
 <h1>Add New Trip</h1>
 
-<form asp-action="Create">
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
     <div class="form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />
@@ -26,7 +28,5 @@
 <a class="btn btn-secondary mt-2" href="@Url.Action("Index")">Cancel</a>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }

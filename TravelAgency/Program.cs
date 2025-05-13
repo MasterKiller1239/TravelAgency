@@ -1,14 +1,33 @@
-using TravelAgency;
+using Microsoft.EntityFrameworkCore;
+using TravelAgency.Data;
 using TravelAgency.Services;
 var builder = WebApplication.CreateBuilder(args);
+Console.WriteLine("Choose data source: 1 - Firebase | 2 - SQL Server");
+var choice = Console.ReadLine();
 
-var firestoreService = new FirestoreService(
-    projectId: "travelagency-6f8ba",
-    credentialsPath: Path.Combine(Directory.GetCurrentDirectory(), "Secrets", "serviceAccountKey.json")
-);
-builder.Services.AddSingleton(firestoreService);
+if (choice == "1")
+{
+    // Firebase
+    var firebaseProjectId = "travelagency-6f8ba";
+    var credentialsPath = Path.Combine(Directory.GetCurrentDirectory(), "Secrets", "serviceAccountKey.json");
 
-//await SeedData.InitializeAsync(firestoreService);
+    builder.Services.AddSingleton<IDataSource>(new FirestoreDataSource(firebaseProjectId, credentialsPath));
+}
+else if (choice == "2")
+{
+    // SQL
+    builder.Services.AddDbContext<TravelAgencyContext>(options =>
+        options.UseSqlServer("Server=localhost;Database=TravelAgencyDB;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=true;").EnableSensitiveDataLogging()
+           .EnableDetailedErrors());
+
+    builder.Services.AddScoped<IDataSource, SqlDataSource>();
+}
+else
+{
+    Console.WriteLine("Invalid choice. Exiting...");
+    return;
+}
+
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
@@ -29,6 +48,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Trips}/{action=Index}/{id?}");
 
 app.Run();
