@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TravelAgency.Models;
+using TravelAgency.Services.Interfaces;
 
 namespace TravelAgency.Services
 {

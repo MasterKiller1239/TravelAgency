@@ -1,7 +1,7 @@
 ﻿using Google.Cloud.Firestore;
 using TravelAgency.Models;
 
-namespace TravelAgency.Services
+namespace TravelAgency.Services.Old
 {
     public class FirestoreService
     {
