@@ -16,7 +16,7 @@ namespace TravelAgency.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Trip>> GetTripsAsync()
+        public async Task<List<Trip>> GetTripsAsync()
         {
             return await _context.Trips.ToListAsync();
         }

@@ -18,7 +18,7 @@ namespace TravelAgency.Services
             _db = FirestoreDb.Create(projectId);
         }
 
-        async Task<IEnumerable<Trip>> IDataSource.GetTripsAsync()
+        async Task<List<Trip>> IDataSource.GetTripsAsync()
         {
             var trips = new List<Trip>();
             var snapshot = await _db.Collection(CollectionName).GetSnapshotAsync();
