@@ -16,8 +16,8 @@ CREATE TABLE Trips (
 GO
 
 -- Dodaj przyk³adowe dane
-INSERT INTO Trips (Id, Name, Description, Price) VALUES
-(1, 'Italy - Rome', '5 days of sightseeing', 2500),
-(2, 'Greece - Athens', 'A week of sunny vacation', 3200),
-(3, 'Japan - Tokyo', '7 days exploring the city', 5200);
+INSERT INTO Trips (Name, Description, Price) VALUES
+('Italy - Rome', '5 days of sightseeing', 2500),
+('Greece - Athens', 'A week of sunny vacation', 3200),
+('Japan - Tokyo', '7 days exploring the city', 5200);
 GO
